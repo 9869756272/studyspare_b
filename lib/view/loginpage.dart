@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
-                    hintText: 'Username',
+                    // hintText: 'Username',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
