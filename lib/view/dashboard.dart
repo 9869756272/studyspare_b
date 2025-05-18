@@ -101,7 +101,7 @@ class CourseCard extends StatelessWidget {
               Text(
                 courseName,
                 style: TextStyle(
-                  fontSize: 20,
+                  // fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: color,
                 ),
