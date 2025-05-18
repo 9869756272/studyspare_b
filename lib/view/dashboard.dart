@@ -1,121 +1,93 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const Dashboard());
+
+
+class DashboardPage extends StatefulWidget {
+  @override
+  _DashboardPageState createState() => _DashboardPageState();
 }
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
+class _DashboardPageState extends State<DashboardPage> {
+  int _selectedIndex = 0;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'StudySphere',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Roboto',
+  final List<Map<String, dynamic>> _courses = [
+    {'title': 'Python', 'icon': 'assets/python.png'},
+    {'title': 'Java', 'icon': 'assets/java.png'},
+    {'title': 'JavaScript', 'icon': 'assets/js.png'},
+    {'title': 'Flutter', 'icon': 'assets/flutter.png'},
+    {'title': 'NodeJS', 'icon': 'assets/nodejs.png'},
+    {'title': 'Dart', 'icon': 'assets/dart.png'},
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  Widget buildCourseCard(String title, String iconPath) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      elevation: 4,
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(iconPath, height: 50),
+            SizedBox(height: 10),
+            Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
       ),
-      home: const DashboardScreen(),
     );
   }
-}
-
-class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: Column(
+          children: [
+            Image.asset('assets/images/logo.png', height: 90), // Add your logo
+            Text("Dashboard", style: TextStyle(color: Colors.white)),
+          ],
+        ),
+        backgroundColor: Colors.white,
         centerTitle: true,
-        elevation: 0,
+        toolbarHeight: 90,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header with logo
-              Center(
-                child: Column(
-                  children: [
-                    const Text(
-                      'StudySphere',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'Dashboard',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-              ),
-              
-              const SizedBox(height: 30),
-              
-              // Explore all Courses section
-              const Text(
-                'Explore all Courses',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              
-              const SizedBox(height: 20),
-              
-              // Course grid
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Explore all Courses", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Expanded(
+              child: GridView.count(
                 crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 1.2,
-                children: [
-                  _buildCourseCard('Python', Colors.blue),
-                  _buildCourseCard('Java', Colors.orange),
-                  _buildCourseCard('JavaScript', Colors.yellow),
-                  _buildCourseCard('Flutter', Colors.teal),
-                  _buildCourseCard('NodeJS', Colors.green),
-                  _buildCourseCard('Dart', Colors.blueAccent),
-                ],
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                children: _courses
+                    .map((course) => buildCourseCard(course['title'], course['icon']))
+                    .toList(),
               ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCourseCard(String title, Color color) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: color.withOpacity(0.2),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: color,
             ),
-          ),
+          ],
         ),
       ),
-    );
-  }
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
+        ],
+     ),
+);
+ }
 }
