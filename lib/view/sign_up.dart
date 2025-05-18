@@ -84,7 +84,7 @@ class SignUpScreen extends StatelessWidget {
               Center(
                 child: RichText(
                   text: TextSpan(
-                    text: 'Already have account? ',
+                    text: 'Already have an account? ',
                     style: const TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
@@ -95,7 +95,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Navigate to sign in screen
+                            Navigator.pop(context); // 👈 Return to LoginPage
                           },
                       ),
                     ],

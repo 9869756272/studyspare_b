@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:studyspare_b/view/sign_up.dart';
+
+import 'dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -31,8 +34,8 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 // Logo
                 Image.asset(
-                  'assets/images/logo.png', // Add this image in assets
-                  height: 150,
+                  'assets/images/logo.png',
+                  height: 170,
                 ),
 
                 const SizedBox(height: 20),
@@ -80,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // Add navigation logic
+                      // Add forgot password logic
                     },
                     child: const Text(
                       'Forget Password?',
@@ -97,7 +100,10 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Add sign-in logic
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DashBoardPAge()),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
@@ -121,7 +127,10 @@ class _LoginPageState extends State<LoginPage> {
                     const Text("Not a member yet? "),
                     GestureDetector(
                       onTap: () {
-                        // Navigate to Sign up
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                        );
                       },
                       child: const Text(
                         "Sign up",

@@ -1,93 +1,122 @@
 import 'package:flutter/material.dart';
 
+class DashBoardPAge extends StatefulWidget {
+  const DashBoardPAge({super.key});
 
-
-class DashboardPage extends StatefulWidget {
   @override
-  _DashboardPageState createState() => _DashboardPageState();
+  State<DashBoardPAge> createState() => _DashBoardPAgeState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
-  int _selectedIndex = 0;
-
-  final List<Map<String, dynamic>> _courses = [
-    {'title': 'Python', 'icon': 'assets/python.png'},
-    {'title': 'Java', 'icon': 'assets/java.png'},
-    {'title': 'JavaScript', 'icon': 'assets/js.png'},
-    {'title': 'Flutter', 'icon': 'assets/flutter.png'},
-    {'title': 'NodeJS', 'icon': 'assets/nodejs.png'},
-    {'title': 'Dart', 'icon': 'assets/dart.png'},
+class _DashBoardPAgeState extends State<DashBoardPAge> {
+  final List<String> courses = [
+    'Python', 'Java', 'JS', 'JavaScript',
+    'Flutter', 'Node', 'NodeJS', 'Dart'
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  Widget buildCourseCard(String title, String iconPath) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 4,
-      child: Padding(
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(iconPath, height: 50),
-            SizedBox(height: 10),
-            Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
+  final List<Color> courseColors = [
+    Colors.blueAccent,
+    Colors.orangeAccent,
+    Colors.yellowAccent,
+    Colors.amber,
+    Colors.lightBlue,
+    Colors.greenAccent,
+    Colors.tealAccent,
+    Colors.purpleAccent,
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
-          children: [
-            Image.asset('assets/images/logo.png', height: 90), // Add your logo
-            Text("Dashboard", style: TextStyle(color: Colors.white)),
-          ],
-        ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        toolbarHeight: 90,
+        title: const Text('Study Sphere Dashboard'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Explore all Courses", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
+            const Text(
+              'Explore all Courses',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
             Expanded(
               child: GridView.count(
                 crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                children: _courses
-                    .map((course) => buildCourseCard(course['title'], course['icon']))
-                    .toList(),
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.5,
+                children: List.generate(courses.length, (index) {
+                  return CourseCard(
+                    courseName: courses[index],
+                    color: courseColors[index % courseColors.length],
+                  );
+                }),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
-     ),
-);
- }
+    );
+  }
+}
+
+class CourseCard extends StatelessWidget {
+  final String courseName;
+  final Color color;
+
+  const CourseCard({
+    super.key,
+    required this.courseName,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                courseName,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Icon(
+                  Icons.arrow_forward,
+                  color: color,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
