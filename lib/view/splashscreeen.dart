@@ -50,11 +50,11 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Upgrade your Coding Skills\nWith LearnMenia',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                    // fontSize: 16,
+                    // fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: 40),
+                // SizedBox(height: 40),
                 CircularProgressIndicator(
                   color: Colors.red,
                 ),
