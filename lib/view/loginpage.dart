@@ -125,12 +125,12 @@ class _LoginPageState extends State<LoginPage> {
                         MaterialPageRoute(builder: (context) => MainDashboard()),
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
+                    // style: ElevatedButton.styleFrom(
+                    //   backgroundColor: Colors.blue,
+                    //   shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(12),
+                    //   ),
+                    // ),
                     child: const Text(
                       'Sign in',
                       style: TextStyle(fontSize: 18, color: Colors.black ),
