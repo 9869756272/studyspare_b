@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studyspare_b/view/sign_up.dart';
 
-import 'dashboard.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 170,
                 ),
 
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
 
                 // Sign in text
                 const Align(
@@ -51,30 +51,50 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 20),
 
-                // Username field
-                TextField(
-                  controller: _usernameController,
-                  decoration: InputDecoration(
-                    hintText: 'Username',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
 
-                const SizedBox(height: 20),
-
-                // Password field
-                TextField(
-                  controller: _passwordController,
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: 'Password',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                hintText: 'Username',
+                prefixIcon: Icon(Icons.person),
+                filled: true,
+                fillColor: Colors.grey[100],
+                contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey.shade400, width: 1.5),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.blue, width: 2),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Password field
+            TextField(
+              controller: _passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                hintText: 'Password',
+                prefixIcon: Icon(Icons.lock),
+                filled: true,
+                fillColor: Colors.grey[100],
+                contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey.shade400, width: 1.5),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.blue, width: 2),
+                ),
+              ),
+            ),
+
+
 
                 const SizedBox(height: 10),
 
@@ -87,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     child: const Text(
                       'Forget Password?',
-                      style: TextStyle(color: Colors.red),
+                      style: TextStyle(color: Colors.red, fontSize: 18 ),
                     ),
                   ),
                 ),
@@ -102,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DashboardPage()),
+                        MaterialPageRoute(builder: (context) => MainDashboard()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -124,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Not a member yet? "),
+                    const Text("Not a member yet? ", style: TextStyle(fontSize: 18),),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -134,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                       },
                       child: const Text(
                         "Sign up",
-                        style: TextStyle(color: Colors.red),
+                        style: TextStyle(color: Colors.red, fontSize: 18),
                       ),
                     ),
                   ],

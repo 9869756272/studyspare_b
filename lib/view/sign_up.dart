@@ -30,37 +30,99 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 25),
+
+              // Username field
               TextField(
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
                 decoration: InputDecoration(
                   hintText: 'Username',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  border: OutlineInputBorder(
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                    
+                    color: Colors.grey,
+                  ),
+                  prefixIcon: Icon(Icons.person),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.grey.shade400, width: 1.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
+
+              // Email field
               TextField(
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
                 decoration: InputDecoration(
                   hintText: 'Email',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  border: OutlineInputBorder(
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                 
+                    color: Colors.grey,
+                  ),
+                  prefixIcon: Icon(Icons.email),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.grey.shade400, width: 1.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
+
+              // Password field
               TextField(
                 obscureText: true,
+                style: TextStyle(
+                  fontSize: 16,
+              
+                  color: Colors.black87,
+                ),
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                  border: OutlineInputBorder(
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                    
+                    color: Colors.grey,
+                  ),
+                  prefixIcon: Icon(Icons.lock),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                  contentPadding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+                  enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.grey.shade400, width: 1.5),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: BorderSide(color: Colors.blue, width: 2),
                   ),
                 ),
               ),
               const SizedBox(height: 20),
+
+              // Sign up button
               SizedBox(
                 width: double.infinity,
                 height: 50,
@@ -81,21 +143,23 @@ class SignUpScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
+
+              // Navigation to Sign in
               Center(
                 child: RichText(
                   text: TextSpan(
                     text: 'Already have an account? ',
-                    style: const TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black, fontSize: 18),
                     children: [
                       TextSpan(
                         text: 'Sign in',
                         style: const TextStyle(
-                          color: Colors.red,
+                          color: Colors.red, fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Navigator.pop(context); // 👈 Return to LoginPage
+                            Navigator.pop(context); // Go back to login
                           },
                       ),
                     ],
