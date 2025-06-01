@@ -5,6 +5,8 @@ import 'package:studyspare_b/view/loginpage.dart';
 
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -14,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginPage()),
@@ -50,11 +52,11 @@ class _SplashScreenState extends State<SplashScreen> {
                   'Upgrade your Coding Skills\nWith LearnMenia',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    // fontSize: 16,
-                    // fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                // SizedBox(height: 40),
+                SizedBox(height: 40),
                 CircularProgressIndicator(
                   color: Colors.red,
                 ),

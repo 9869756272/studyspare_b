@@ -1,66 +1,107 @@
 import 'package:flutter/material.dart';
 
-class DashBoardPAge extends StatefulWidget {
-  const DashBoardPAge({super.key});
+void main() => runApp(const DashboardPage());
+
+class DashboardPage extends StatelessWidget {
+  const DashboardPage({super.key});
 
   @override
-  State<DashBoardPAge> createState() => _DashBoardPAgeState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'StudySphere',
+      debugShowCheckedModeBanner: false,
+      home: const DashboardScreen(),
+    );
+  }
 }
 
-class _DashBoardPAgeState extends State<DashBoardPAge> {
-  final List<String> courses = [
-    'Python', 'Java', 'JS', 'JavaScript',
-    'Flutter', 'Node', 'NodeJS', 'Dart'
-  ];
-
-  final List<Color> courseColors = [
-    Colors.blueAccent,
-    Colors.orangeAccent,
-    Colors.yellowAccent,
-    Colors.amber,
-    Colors.lightBlue,
-    Colors.greenAccent,
-    Colors.tealAccent,
-    Colors.purpleAccent,
-  ];
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Study Sphere Dashboard'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
+      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.card_giftcard), label: ''),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SafeArea(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Explore all Courses',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            const SizedBox(height: 30),
+
+            // Logo and App Name
+            Column(
+              children: [
+                Image.asset(
+                  'assets/images/logo.png',
+                  height: 130,
+                ),
+               
+              ],
+            ),
+
+            const SizedBox(height: 2),
+
+            // Dashboard Header
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(10),
+              color: Colors.blue,
+              child: const Center(
+                child: Text(
+                  "Dashboard",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
-            const SizedBox(height: 20),
+
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Explore all Courses",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            // Course Grid (inline cards)
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1.5,
-                children: List.generate(courses.length, (index) {
-                  return CourseCard(
-                    courseName: courses[index],
-                    color: courseColors[index % courseColors.length],
-                  );
-                }),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 1,
+                  children: [
+                    buildCourseCard("Python", 
+                    'assets/images/python.png'),
+                    buildCourseCard("Java", 
+                    'assets/images/java.png'),
+                    buildCourseCard("JavaScript", 
+                    "assets/images/javascript.png"),
+                    buildCourseCard("Flutter", 
+                    "assets/images/fluuter.png"),
+                    buildCourseCard("Node js", 
+                    "assets/images/node js.png"),
+                    buildCourseCard("Dart",
+                     "assets/images/dart.png"),
+                  ],
+                ),
               ),
             ),
           ],
@@ -68,53 +109,29 @@ class _DashBoardPAgeState extends State<DashBoardPAge> {
       ),
     );
   }
-}
 
-class CourseCard extends StatelessWidget {
-  final String courseName;
-  final Color color;
-
-  const CourseCard({
-    super.key,
-    required this.courseName,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
+  // Inline method to build course card
+  Widget buildCourseCard(String title, String imagePath) {
     return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                courseName,
-                style: TextStyle(
-                  // fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
               ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Icon(
-                  Icons.arrow_forward,
-                  color: color,
-                ),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
       ),
     );

@@ -38,13 +38,13 @@ class _LoginPageState extends State<LoginPage> {
                   height: 170,
                 ),
 
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
 
                 // Sign in text
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Sign in',
+                    'Sign In',
                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -55,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                 TextField(
                   controller: _usernameController,
                   decoration: InputDecoration(
-                    // hintText: 'Username',
+                    hintText: 'Username',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => DashBoardPAge()),
+                        MaterialPageRoute(builder: (context) => DashboardPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     child: const Text(
                       'Sign in',
-                      style: TextStyle(fontSize: 18),
+                      style: TextStyle(fontSize: 18, color: Colors.black ),
                     ),
                   ),
                 ),
