@@ -14,11 +14,11 @@ class SignUpScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 80),
+              const SizedBox(height: 140),
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
-                  height: 150,
+                  height: 170,
                 ),
               ),
               const SizedBox(height: 20),
