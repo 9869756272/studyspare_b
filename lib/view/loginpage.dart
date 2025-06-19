@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:studyspare_b/view/sign_up.dart';
 
-import 'home_page.dart';
+import 'maindash.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
