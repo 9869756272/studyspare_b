@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studyspare_b/view/loginpage.dart';
+import 'package:studyspare_b/feature/auth/presentation/view/loginpage.dart';
 
 
 
