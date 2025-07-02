@@ -5,6 +5,6 @@ abstract interface class IuserDataSource{
   Future<void> registerUser (UserEntity userData);
 
 
-   Future<String> loginUser(String email, String password);
+   Future<String> loginUser(String username, String password);
 
 }
