@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 SizedBox(height: 30),
                 Text(
-                  'Upgrade your Coding Skills\nWith LearnMenia',
+                  'Upgrade your Coding Skills\nWith Studysphere',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
