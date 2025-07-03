@@ -8,6 +8,7 @@ import 'package:studyspare_b/feature/auth/presentation/view/sign_up.dart';
 import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_event.dart';
 import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_state.dart';
 import 'package:studyspare_b/feature/auth/presentation/view_model/register_view_model/register_view_model.dart';
+import 'package:studyspare_b/screen/dashboardscreen.dart';
 
 
 class LoginViewModel extends Bloc<LoginEvent, LoginState> {
@@ -16,7 +17,7 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
   LoginViewModel(this._userLoginUsecase)
       : super(LoginState.initial()) {
     on<NavigateToRegisterViewEvent>(_onNavigateToRegisterView);
-    on<LoginWithuserNameAndPasswordEvent>(_onLoginWithEmailAndPassword);
+    on<LoginWithuserNameAndPasswordEvent>(_onLoginWithuserNameAndPassword);
   }
 
   void _onNavigateToRegisterView(
@@ -38,7 +39,7 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  void _onLoginWithEmailAndPassword(
+  void _onLoginWithuserNameAndPassword(
     LoginWithuserNameAndPasswordEvent event,
     Emitter<LoginState> emit,
   ) async {
@@ -63,6 +64,13 @@ class LoginViewModel extends Bloc<LoginEvent, LoginState> {
           context: event.context,
           message: "Login Successful",
           color: Colors.green,
+        );
+
+        Navigator.pushReplacement(
+          event.context,
+          MaterialPageRoute(
+            builder: (_) =>  DashboardScreen(),
+          ),
         );
 
         // Optional: Navigate to Home after login
