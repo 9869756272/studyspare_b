@@ -25,4 +25,12 @@ class UserEntity  extends Equatable{
     email,
     password
   ];
+   factory UserEntity.empty() {
+    return const UserEntity(
+      userId: null,
+     username: '',
+      email: '', 
+      password: '',
+    );
+  }
 }
