@@ -45,3 +45,12 @@ app.*.map.json
 /android/app/release
 ios/Podfile
 ios/Podfile.lock
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Profile.xcconfig
+ios/Flutter/Release.xcconfig
+ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+ios/Runner.xcworkspace/contents.xcworkspacedata
+ ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+ ios/Runner.xcodeproj/project.pbxproj
+/ios
+ios/

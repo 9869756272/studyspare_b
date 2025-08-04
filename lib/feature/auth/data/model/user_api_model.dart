@@ -2,62 +2,46 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:studyspare_b/feature/auth/domain/entity/user_entity.dart';
 
-
-
 part 'user_api_model.g.dart';
 
-
 @JsonSerializable()
-class UserApiModel  extends Equatable{
+class UserApiModel extends Equatable {
   @JsonKey(name: '_id')
   final String? userId;
-  final String username;
+  final String name;
   final String email;
   final String? password;
 
-
   const UserApiModel({
     this.userId,
-    required this.username,
+    required this.name,
     required this.email,
     this.password,
-
   });
 
-
-   factory UserApiModel.fromJson(Map<String, dynamic> json) =>
+  factory UserApiModel.fromJson(Map<String, dynamic> json) =>
       _$UserApiModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserApiModelToJson(this);
 
-
-  factory UserApiModel.fromEntity(UserEntity entity){
+  factory UserApiModel.fromEntity(UserEntity entity) {
     return UserApiModel(
       userId: entity.userId,
-      username: entity.username,
+      name: entity.name,
       email: entity.email,
       password: entity.password,
-
     );
   }
 
-  UserEntity toEntity () {
+  UserEntity toEntity() {
     return UserEntity(
       userId: userId,
-      username: username,
+      name: name,
       email: email,
       password: password ?? '',
     );
   }
 
   @override
- 
-  List<Object?> get props => [
-    userId,
-    username,
-    email,
-    password,
-    
-  ];
-
+  List<Object?> get props => [userId, name, email, password];
 }

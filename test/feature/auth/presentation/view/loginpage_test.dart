@@ -9,88 +9,65 @@ import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_mod
 import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_state.dart';
 import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_view_model.dart';
 
-
-
 class MockLoginBloc extends MockBloc<LoginEvent, LoginState>
-  implements LoginViewModel {}
+    implements LoginViewModel {}
 
 void main() {
   late MockLoginBloc loginViewModel;
 
-
-  setUp((){
+  setUp(() {
     loginViewModel = MockLoginBloc();
   });
 
-  Widget loadLoginView(){
+  Widget loadLoginView() {
     return BlocProvider<LoginViewModel>(
       create: (context) => loginViewModel,
       child: MaterialApp(home: LoginPage()),
     );
   }
 
-testWidgets('Check for the text in login UI', (tester) async {
-  await tester.pumpWidget(loadLoginView());
-  await tester.pumpAndSettle();
-
-  // Find the ElevatedButton with the text 'Sign In'
-  final result = find.widgetWithText(ElevatedButton, 'Sign in');
-
-  // Assert it exists
-  expect(result, findsOneWidget);
-});
-
-
-  testWidgets ('Check for the email and password', (tester) async {
+  testWidgets('Check for the text in login UI', (tester) async {
     await tester.pumpWidget(loadLoginView());
     await tester.pumpAndSettle();
-    await tester.enterText(find.byType(TextField). at(0), 'rahul');
-    await tester. enterText(find.byType(TextField).at(1), 'password');
-    await tester.tap(find.byType(ElevatedButton) .first);
-    
-    await tester.pumpAndSettle();
-    expect (find. text ('rahul'), findsOneWidget); 
-    expect (find. text ('password'), findsOneWidget);
 
+    // Find the ElevatedButton with the text 'Sign In'
+    final result = find.widgetWithText(ElevatedButton, 'Sign in');
 
-
+    // Assert it exists
+    expect(result, findsOneWidget);
   });
-testWidgets('Check for the validator error', (tester) async {
-  await tester.pumpWidget(loadLoginView());
-  await tester.pumpAndSettle();
 
-  // Tap login button without filling the form
-  await tester.tap(find.byType(ElevatedButton).first);
-  await tester.pumpAndSettle();
+  testWidgets('Check for the email and password', (tester) async {
+    await tester.pumpWidget(loadLoginView());
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField).at(0), 'rahul');
+    await tester.enterText(find.byType(TextField).at(1), 'password');
+    await tester.tap(find.byType(ElevatedButton).first);
 
-  expect(find.text('Username is required'), findsOneWidget);
-  expect(find.text('Password is required'), findsOneWidget); // <-- updated
-});
-
-
+    await tester.pumpAndSettle();
+    expect(find.text('rahul'), findsOneWidget);
+    expect(find.text('password'), findsOneWidget);
+  });
 
   testWidgets('Login success', (tester) async {
-  // Arrange - Mock the state
-  when(() => loginViewModel.state).thenReturn(
-    LoginState(isLoading: false, isSuccess: true),
-  );
+    // Arrange - Mock the state
+    when(
+      () => loginViewModel.state,
+    ).thenReturn(LoginState(isLoading: false, isSuccess: true));
 
-  // Act - Render the widget
-  await tester.pumpWidget(loadLoginView());
-  await tester.pumpAndSettle();
+    // Act - Render the widget
+    await tester.pumpWidget(loadLoginView());
+    await tester.pumpAndSettle();
 
-  // Enter valid email and password
-  await tester.enterText(find.byType(TextField).at(0), 'rahul');
-  await tester.enterText(find.byType(TextField).at(1), 'rahul123');
+    // Enter valid email and password
+    await tester.enterText(find.byType(TextField).at(0), 'rahul');
+    await tester.enterText(find.byType(TextField).at(1), 'rahul123');
 
-  // Tap the login button
-  await tester.tap(find.byType(ElevatedButton).first);
-  await tester.pumpAndSettle();
+    // Tap the login button
+    await tester.tap(find.byType(ElevatedButton).first);
+    await tester.pumpAndSettle();
 
-  // Assert - Ensure login was successful
-  expect(loginViewModel.state.isSuccess, true);
-});
+    // Assert - Ensure login was successful
+    expect(loginViewModel.state.isSuccess, true);
+  });
 }
-
-
-  

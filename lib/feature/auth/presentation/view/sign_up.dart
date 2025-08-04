@@ -42,7 +42,7 @@
 //                   hintText: 'Username',
 //                   hintStyle: TextStyle(
 //                     fontSize: 15,
-                    
+
 //                     color: Colors.grey,
 //                   ),
 //                   prefixIcon: Icon(Icons.person),
@@ -72,7 +72,7 @@
 //                   hintText: 'Email',
 //                   hintStyle: TextStyle(
 //                     fontSize: 15,
-                 
+
 //                     color: Colors.grey,
 //                   ),
 //                   prefixIcon: Icon(Icons.email),
@@ -96,14 +96,14 @@
 //                 obscureText: true,
 //                 style: TextStyle(
 //                   fontSize: 16,
-              
+
 //                   color: Colors.black87,
 //                 ),
 //                 decoration: InputDecoration(
 //                   hintText: 'Password',
 //                   hintStyle: TextStyle(
 //                     fontSize: 15,
-                    
+
 //                     color: Colors.grey,
 //                   ),
 //                   prefixIcon: Icon(Icons.lock),
@@ -174,7 +174,6 @@
 //   }
 // }
 
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -192,13 +191,13 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _userNameController = TextEditingController();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _userNameController.dispose();
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -218,26 +217,24 @@ class _SignupScreenState extends State<SignupScreen> {
               children: [
                 const SizedBox(height: 140),
                 Center(
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    height: 170,
-                  ),
+                  child: Image.asset('assets/images/logo.png', height: 170),
                 ),
                 const SizedBox(height: 20),
                 const Text(
                   'Sign up',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 25),
 
                 _buildField(
-                  controller: _userNameController,
-                  hint: 'Username',
+                  controller: _nameController,
+                  hint: 'Name',
                   icon: Icons.person,
-                  validator: (val) => val == null || val.isEmpty ? 'Username is required' : null,
+                  validator:
+                      (val) =>
+                          val == null || val.isEmpty
+                              ? 'Name is required'
+                              : null,
                 ),
                 const SizedBox(height: 20),
 
@@ -258,8 +255,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   hint: 'Password',
                   icon: Icons.lock,
                   obscure: true,
-                  validator: (val) =>
-                      val == null || val.length < 6 ? 'Password must be at least 6 characters' : null,
+                  validator:
+                      (val) =>
+                          val == null || val.length < 6
+                              ? 'Password must be at least 6 characters'
+                              : null,
                 ),
                 const SizedBox(height: 20),
 
@@ -276,14 +276,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         context.read<RegisterViewModel>().add(
-                              RegisterUserEvent(
-                                context: context,
-                                username: _userNameController.text,
-                                email: _emailController.text,
-                           
-                                password: _passwordController.text,
-                              ),
-                            );
+                          RegisterUserEvent(
+                            context: context,
+                            name: _nameController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                          ),
+                        );
                       }
                     },
                     child: const Text(
@@ -307,13 +306,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (context) => const LoginPage()),
-                              );
-                            },
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginPage(),
+                                    ),
+                                  );
+                                },
                         ),
                       ],
                     ),
@@ -338,14 +340,21 @@ class _SignupScreenState extends State<SignupScreen> {
       controller: controller,
       obscureText: obscure,
       validator: validator,
-      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black87),
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        color: Colors.black87,
+      ),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: const TextStyle(fontSize: 15, color: Colors.grey),
         prefixIcon: Icon(icon),
         filled: true,
         fillColor: Colors.grey[100],
-        contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 20.0),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+          horizontal: 20.0,
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(color: Colors.grey.shade400, width: 1.5),

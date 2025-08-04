@@ -5,49 +5,41 @@ import 'package:studyspare_b/core/error/failure.dart';
 import 'package:studyspare_b/feature/auth/domain/entity/user_entity.dart';
 import 'package:studyspare_b/feature/auth/domain/repository/user_repositroy.dart';
 
-
-class RegisterUserParams extends Equatable{
-  final String username;
+class RegisterUserParams extends Equatable {
+  final String name;
   final String email;
   final String password;
 
   const RegisterUserParams({
-    required this.username,
+    required this.name,
     required this.email,
     required this.password,
   });
 
-    //intial constructor
-    const RegisterUserParams.intial({
-      required this.username,
-      required this.email,
-      required this.password
-    });
-  
-  @override
+  //intial constructor
+  const RegisterUserParams.intial({
+    required this.name,
+    required this.email,
+    required this.password,
+  });
 
-  List<Object?> get props => [
-    username,
-    email,
-    password
-  ];
+  @override
+  List<Object?> get props => [name, email, password];
 }
 
-class UserRegisterUsecase  implements UsecaseWithParams<void, RegisterUserParams>{
+class UserRegisterUsecase
+    implements UsecaseWithParams<void, RegisterUserParams> {
   final IuserRepository _userRepository;
   UserRegisterUsecase({required IuserRepository userReposiotry})
-  : _userRepository = userReposiotry;
+    : _userRepository = userReposiotry;
 
   @override
   Future<Either<Failure, void>> call(RegisterUserParams params) {
     final userEntity = UserEntity(
-      username: params.username,
-      email : params.email,
+      name: params.name,
+      email: params.email,
       password: params.password,
-
     );
     return _userRepository.registerUser(userEntity);
-  
-   
   }
 }

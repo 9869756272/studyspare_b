@@ -6,44 +6,64 @@ import 'package:studyspare_b/feature/auth/domain/entity/user_entity.dart';
 import 'package:studyspare_b/feature/auth/domain/repository/user_repositroy.dart';
 import 'package:studyspare_b/feature/auth/domain/use_case/user_register_usecase.dart';
 
+class MockIuserRepository extends Mock implements IuserRepository {}
 
-// Mock class
-class MockUserRepository extends Mock implements IuserRepository {}
+class ServerFailure extends Failure {
+  ServerFailure({required super.message});
+}
 
 void main() {
-  late MockUserRepository repository;
+  late IuserRepository mockRepository;
   late UserRegisterUsecase usecase;
 
-  setUp(() {
-    repository = MockUserRepository();
-    usecase = UserRegisterUsecase(userReposiotry: repository);
-
-    // Register fallback for UserEntity used internally in the use case
-    registerFallbackValue(UserEntity.empty());
+  setUpAll(() {
+    registerFallbackValue(const UserEntity(name: '', email: '', password: ''));
   });
 
-  final params = const RegisterUserParams(
-    username: 'Test User',
-    email: 'test@email.com',
-    password: 'securepassword',
+  setUp(() {
+    mockRepository = MockIuserRepository();
+    usecase = UserRegisterUsecase(userReposiotry: mockRepository);
+  });
+
+  const tParams = RegisterUserParams(
+    name: 'Test User',
+    email: 'test@example.com',
+    password: 'password123',
   );
 
-  final expectedUserEntity = UserEntity(
-    username: params.username,
-    email: params.email,
-    password: params.password,
+  const tUserEntity = UserEntity(
+    name: 'Test User',
+    email: 'test@example.com',
+    password: 'password123',
   );
 
-  test('should call registerUser and return Right(null)', () async {
-    // Arrange
-    when(() => repository.registerUser(any()))
-        .thenAnswer((_) async => const Right(null));
+  group('UserRegisterUsecase', () {
+    test(
+      'should call registerUser on the repository and return Right(null) on success',
+      () async {
+        when(
+          () => mockRepository.registerUser(any()),
+        ).thenAnswer((_) async => const Right(null));
 
-    // Act
-    final result = await usecase(params);
+        final result = await usecase(tParams);
 
-    // Assert
-    expect(result, const Right<Failure, void>(null));
-    verify(() => repository.registerUser(expectedUserEntity)).called(1);
+        expect(result, const Right(null));
+        verify(() => mockRepository.registerUser(tUserEntity)).called(1);
+        verifyNoMoreInteractions(mockRepository);
+      },
+    );
+
+    test('should return a Failure from the repository on failure', () async {
+      final tFailure = ServerFailure(message: 'Registration Failed');
+      when(
+        () => mockRepository.registerUser(any()),
+      ).thenAnswer((_) async => Left(tFailure));
+
+      final result = await usecase(tParams);
+
+      expect(result, Left(tFailure));
+      verify(() => mockRepository.registerUser(tUserEntity)).called(1);
+      verifyNoMoreInteractions(mockRepository);
+    });
   });
 }

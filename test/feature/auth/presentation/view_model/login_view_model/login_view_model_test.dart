@@ -1,88 +1,179 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:dartz/dartz.dart';
+import 'package:studyspare_b/app/auth/auth_provider.dart';
+import 'package:studyspare_b/app/auth/user_model.dart';
+import 'package:studyspare_b/app/service_locator/service_locator.dart';
+import 'package:studyspare_b/core/error/failure.dart';
+import 'package:studyspare_b/feature/auth/domain/entity/login_response.dart';
 import 'package:studyspare_b/feature/auth/domain/use_case/user_login_usecase.dart';
 import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_event.dart';
+import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_state.dart';
 import 'package:studyspare_b/feature/auth/presentation/view_model/login_view_model/login_view_model.dart';
-
-
-class FakeLoginUsecaseParams extends Fake implements LoginUsecaseParams {}
+import 'package:studyspare_b/feature/home/presentation/view/home_view.dart';
+import 'package:studyspare_b/feature/home/presentation/view_model/home_view_model.dart';
 
 class MockUserLoginUsecase extends Mock implements UserLoginUsecase {}
 
-class FakeBuildContext extends Fake implements BuildContext {}
+class MockAuthProvider extends Mock implements AuthProvider {}
+
+class MockHomeViewModel extends Mock implements HomeViewModel {}
+
+class ServerFailure extends Failure {
+  ServerFailure({required super.message});
+}
 
 void main() {
-  late MockUserLoginUsecase mockUserLoginUsecase;
+  late UserLoginUsecase mockUserLoginUsecase;
+  late AuthProvider mockAuthProvider;
+  late HomeViewModel mockHomeViewModel;
 
   setUpAll(() {
-    // ✅ REGISTER FAKES HERE
-    registerFallbackValue(FakeLoginUsecaseParams());
-    registerFallbackValue(FakeBuildContext());
+    registerFallbackValue(const LoginUsecaseParams(username: '', password: ''));
+    registerFallbackValue(
+      const UserModel(id: '', name: '', email: '', password: '', role: ''),
+    );
+
+    mockAuthProvider = MockAuthProvider();
+    if (!serviceLocator.isRegistered<AuthProvider>()) {
+      serviceLocator.registerSingleton<AuthProvider>(mockAuthProvider);
+    }
+
+    mockHomeViewModel = MockHomeViewModel();
+    if (!serviceLocator.isRegistered<HomeViewModel>()) {
+      serviceLocator.registerSingleton<HomeViewModel>(mockHomeViewModel);
+    }
   });
 
   setUp(() {
     mockUserLoginUsecase = MockUserLoginUsecase();
+    when(() => mockAuthProvider.login(any(), any())).thenAnswer((_) async {});
   });
 
-  void main() {
-  // Your mock setup and variables here
-  late MockUserLoginUsecase mockLoginUsecase;
-  late LoginViewModel loginViewModel;
+  group('LoginViewModel Widget Test', () {
+    const tUsername = 'testuser';
+    const tPassword = 'password';
+    const tUser = UserModel(
+      id: "1",
+      name: tUsername,
+      email: tUsername,
+      role: "user",
+      password: tUsername,
+    );
+    const tLoginResponse = LoginResponse(token: 'test_token', user: tUser);
+    final tFailure = ServerFailure(message: 'Invalid credentials');
 
-  const testusername = 'test';
-  const testPassword = 'password123';
-  const testToken = 'fake_token';
+    // testWidgets('emits [loading, success] and navigates on successful login', (
+    //   WidgetTester tester,
+    // ) async {
+    //   when(
+    //     () => mockUserLoginUsecase(any()),
+    //   ).thenAnswer((_) async => const Right(tLoginResponse));
 
-  setUp(() {
-    mockLoginUsecase = MockUserLoginUsecase();
-    loginViewModel = LoginViewModel(mockLoginUsecase);
-  });
+    //   final loginViewModel = LoginViewModel(mockUserLoginUsecase);
 
-  group('LoginViewModel with snackbar and context', () {
-    testWidgets('LoginViewModel emits loading and success and shows snackbar', (tester) async {
-      // Mock your usecase to succeed
-      when(() => mockLoginUsecase.call(any()))
-          .thenAnswer((_) async => const Right(testToken));
+    //   expectLater(
+    //     loginViewModel.stream,
+    //     emitsInOrder(<LoginState>[
+    //       const LoginState(isLoading: true, isSuccess: false),
+    //       const LoginState(isLoading: false, isSuccess: true),
+    //     ]),
+    //   );
 
-      // 1. Build MaterialApp with Scaffold
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: Builder(
-              builder: (context) {
-                return Container(key: const Key('login_container'));
-              },
+    //   await tester.pumpWidget(
+    //     BlocProvider.value(
+    //       value: loginViewModel,
+    //       child: MaterialApp(
+    //         home: Scaffold(
+    //           body: Builder(
+    //             builder: (context) {
+    //               loginViewModel.add(
+    //                 LoginWithuserNameAndPasswordEvent(
+    //                   username: tUsername,
+    //                   password: tPassword,
+    //                   context: context,
+    //                 ),
+    //               );
+    //               return const SizedBox.shrink();
+    //             },
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   );
+
+    //   await tester.pumpAndSettle();
+
+    //   verify(
+    //     () => mockUserLoginUsecase(
+    //       const LoginUsecaseParams(username: tUsername, password: tPassword),
+    //     ),
+    //   ).called(1);
+    //   verify(() => mockAuthProvider.login('test_token', tUser)).called(1);
+    //   expect(find.text('Login Successful'), findsOneWidget);
+    //   expect(find.byType(HomeView), findsOneWidget);
+    // });
+
+    testWidgets(
+      'emits [loading, failure] and shows error snackbar on failed login',
+      (WidgetTester tester) async {
+        when(
+          () => mockUserLoginUsecase(any()),
+        ).thenAnswer((_) async => Left(tFailure));
+
+        final loginViewModel = LoginViewModel(mockUserLoginUsecase);
+
+        expectLater(
+          loginViewModel.stream,
+          emitsInOrder(<LoginState>[
+            const LoginState(isLoading: true, isSuccess: false),
+            const LoginState(isLoading: false, isSuccess: false),
+          ]),
+        );
+
+        await tester.pumpWidget(
+          BlocProvider.value(
+            value: loginViewModel,
+            child: MaterialApp(
+              home: Scaffold(
+                body: Builder(
+                  builder: (context) {
+                    loginViewModel.add(
+                      LoginWithuserNameAndPasswordEvent(
+                        username: tUsername,
+                        password: 'wrong_password',
+                        context: context,
+                      ),
+                    );
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ),
             ),
           ),
-        ),
-      );
+        );
 
-      // 2. Get the real BuildContext
-      final context = tester.element(find.byKey(const Key('login_container')));
+        await tester.pumpAndSettle();
 
-      // 3. Add the login event with real context
-      loginViewModel.add(LoginWithuserNameAndPasswordEvent(
-        username: testusername,
-        password: testPassword,
-        context: context,
-      ));
-
-      // 4. Wait for bloc and UI to settle (important!)
-      await tester.pumpAndSettle();
-
-      // 5. Assert final state
-      expect(loginViewModel.state.isLoading, false);
-      expect(loginViewModel.state.isSuccess, true);
-
-      // 6. Verify usecase called once
-      verify(() => mockLoginUsecase.call(
-        LoginUsecaseParams(username: testusername, password: testPassword),
-      )).called(1);
-    });
+        verify(
+          () => mockUserLoginUsecase(
+            const LoginUsecaseParams(
+              username: tUsername,
+              password: 'wrong_password',
+            ),
+          ),
+        ).called(1);
+        verifyNever(() => mockAuthProvider.login(any(), any()));
+        expect(
+          find.text(
+            'Invalid credentials. Please check your username and password.',
+          ),
+          findsOneWidget,
+        );
+        expect(find.byType(HomeView), findsNothing);
+      },
+    );
   });
-
- 
-  }
 }
